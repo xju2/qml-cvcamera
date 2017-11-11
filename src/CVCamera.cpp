@@ -155,6 +155,10 @@ void CVCamera::update()
     //Open newly created device
     try{
         if(camera->open(device)){
+			double dWidth = camera->getProperty(CV_CAP_PROP_FRAME_WIDTH);
+			double dHeight = camera->getProperty(CV_CAP_PROP_FRAME_HEIGHT);
+			size = QSize(dWidth, dHeight);
+			qInfo() << size.width() << " " << size.height();
             // camera->setProperty(CV_CAP_PROP_FRAME_WIDTH,size.width());
             // camera->setProperty(CV_CAP_PROP_FRAME_HEIGHT,size.height());
             if(videoSurface){
