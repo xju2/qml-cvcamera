@@ -24,6 +24,7 @@
  */
 
 #include"BetterVideoCapture.h"
+#include <QDebug>
 
 BetterVideoCapture::BetterVideoCapture()
 {
@@ -36,11 +37,18 @@ BetterVideoCapture::BetterVideoCapture()
 
 BetterVideoCapture::~BetterVideoCapture()
 {
+    if(capture->isOpened()) {
+        capture->release();
+    }
     delete capture;
 }
 
 bool BetterVideoCapture::open(int device)
 {
+    if(capture->isOpened()) {
+//        capture->release();
+        return true;
+    }
     return capture->open(device);
 }
 

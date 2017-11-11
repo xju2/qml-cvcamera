@@ -24,6 +24,7 @@
  */
 
 #include"CVCamera.h"
+#include <QDebug>
 
 CVCamera::CVCamera(QQuickItem* parent) :
     QQuickItem(parent)
@@ -36,6 +37,7 @@ CVCamera::CVCamera(QQuickItem* parent) :
         device += " - ";
         device += cameraInfo.description();
         deviceList << device;
+        qInfo() << "Camera found at: " << device;
     }
     emit deviceListChanged();
 
@@ -131,13 +133,14 @@ void CVCamera::update()
     DPRINT("Opening camera %d, width: %d, height: %d", device, size.width(), size.height());
 
     //Destroy old thread, camera accessor and buffers
-    delete thread;
-    delete camera;
+    if(thread) delete thread;
+    if(camera) delete camera;
     if(videoFrame && videoFrame->isMapped())
         videoFrame->unmap();
-    delete videoFrame;
+
+    if(videoFrame) delete videoFrame;
     videoFrame = NULL;
-    delete[] cvImageBuf;
+    if(cvImageBuf) delete[] cvImageBuf;
     cvImageBuf = NULL;
 
     //Create new buffers, camera accessor and thread
@@ -152,13 +155,13 @@ void CVCamera::update()
     //Open newly created device
     try{
         if(camera->open(device)){
-            camera->setProperty(CV_CAP_PROP_FRAME_WIDTH,size.width());
-            camera->setProperty(CV_CAP_PROP_FRAME_HEIGHT,size.height());
+            // camera->setProperty(CV_CAP_PROP_FRAME_WIDTH,size.width());
+            // camera->setProperty(CV_CAP_PROP_FRAME_HEIGHT,size.height());
             if(videoSurface){
                 if(videoSurface->isActive())
                     videoSurface->stop();
                 if(!videoSurface->start(QVideoSurfaceFormat(size,VIDEO_OUTPUT_FORMAT)))
-                    DPRINT("Could not start QAbstractVideoSurface, error: %d",videoSurface->error());
+                    DPRINT("Could not start QAbstractVideoSurface, error: %d", videoSurface->error());
             }
             thread->start();
             DPRINT("Opened camera %d",device);
