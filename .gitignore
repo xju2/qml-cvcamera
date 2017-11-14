@@ -8,3 +8,4 @@ build*/
 #Annoying files
 *~
 
+*.DS_Store
