@@ -25,6 +25,7 @@
 
 #include"CVCamera.h"
 #include <QDebug>
+#include <QTime>
 
 CVCamera::CVCamera(QQuickItem* parent) :
     QQuickItem(parent)
@@ -199,6 +200,7 @@ void CVCamera::setVideoSurface(QAbstractVideoSurface* surface)
 {
     if(videoSurface != surface){
         videoSurface = surface;
+        qInfo() << "I am updating image" << QTime::currentTime();
         update();
     }
 }
