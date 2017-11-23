@@ -123,6 +123,7 @@ public:
      * @return Exported cv image
      */
     QVariant getCvImage();
+    Q_INVOKABLE void saveImage(QString location);
 
 signals:
 
@@ -158,7 +159,7 @@ private:
     QVideoFrame* videoFrame = NULL;                         ///< Object that contains the image buffer to be presented to the video surface
     QAbstractVideoSurface* videoSurface = NULL;             ///< Object that presents the videoFrame to the outside world
 
-    bool exportCvImage = false;                             ///< Whether to export the CV image
+    bool exportCvImage = true;                             ///< Whether to export the CV image
     cv::Mat cvImage;                                        ///< Buffer to export the camera image to
     unsigned char* cvImageBuf = NULL;                       ///< Actual physical buffer for cv::Mat, it is helpless without it
 

@@ -132,6 +132,7 @@ void CVCamera::allocateVideoFrame()
 void CVCamera::update()
 {
     DPRINT("Opening camera %d, width: %d, height: %d", device, size.width(), size.height());
+    qInfo() <<" I am updating images";
 
     //Destroy old thread, camera accessor and buffers
     if(thread) delete thread;
@@ -205,3 +206,8 @@ void CVCamera::setVideoSurface(QAbstractVideoSurface* surface)
     }
 }
 
+void CVCamera::saveImage(QString location) {
+    allocateCvImage();
+    qInfo() <<"Saving image to: " << location;
+    cv::imwrite(location.toLatin1().data(), cvImage);
+}
