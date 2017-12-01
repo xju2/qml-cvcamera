@@ -28,7 +28,7 @@ SOURCES += \
     src/BetterVideoCapture.cpp
 
 INCLUDEPATH += /usr/local/include
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_videoio
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_videoio -lopencv_imgcodecs
 #PKGCONFIG += opencv
 
 android {
